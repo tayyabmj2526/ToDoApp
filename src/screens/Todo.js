@@ -1,9 +1,9 @@
-import { collection, addDoc } from "firebase/firestore"; 
 import AddModal from "../components/AddModal";
 import { useState } from "react";
 import Managaccountbutton from "../components/Signupbuttton";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/Firebase.config";
+import { collection, addDoc } from "firebase/firestore";
 import Appstyle from "../styles/Appstyle";
 import {
   View,
@@ -17,7 +17,14 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "react-native";
 export default function Todo() {
-  const adddtdo = (todo) => {};
+  const adddtdo = async (todo) => {
+    const docRef = await addDoc(collection(db, "todos"), {
+      text: todo,
+      completed: false,
+      userid: auth.currentUser.uid,
+    });
+    console.log(docRef);
+  };
   const [modalvisible, setmodalvisible] = useState("");
   const navigation = useNavigation();
   const lgout = () => {
